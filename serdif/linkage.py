@@ -47,6 +47,16 @@ def printProgressBar(iteration, prefix, suffix, decimals, length, fill, printEnd
     print(f'\r{prefix} |{bar}| {percent}% {suffix}\n', end=printEnd)
 
 
+# Function to build serdif-geosparql server
+def serdif_geosparql():
+    # build serdif-geosparql SPARQL endpoint
+    build_serdifstore = 'java -jar data/jena-fuseki-geosparql-4.7.0.jar -t "data/serdif-geosparql" -i'
+    p_build_serdifstore = run(build_serdifstore, shell=True)
+    # load dataset to serdif-geosparql SPARQL endpoint
+    add_nutsgeo = 'data/apache-jena-4.7.0/bin/tdbloader --loc data/serdif-geosparql EU-nuts-rdf-geosparql.ttl'
+    p_add_nuts = run(add_nutsgeo, shell=True)
+
+
 # Function to load event data and metadata
 def load_events(event_data, event_metadata):
     # read event data to dictionary

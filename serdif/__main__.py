@@ -117,6 +117,7 @@ def main():
         raw_folder='.' + args['datasets'],
         queryTimeStr=queryTimeStr,
     )
+    linkage.serdif_geosparql()
     linkage.link_data(
         raw_folder='.' + args['datasets'],
         df_input_path=args['events'],
