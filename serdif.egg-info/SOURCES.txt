@@ -1,0 +1,8 @@
+pyproject.toml
+serdif/__main__.py
+serdif/linkage.py
+serdif.egg-info/PKG-INFO
+serdif.egg-info/SOURCES.txt
+serdif.egg-info/dependency_links.txt
+serdif.egg-info/entry_points.txt
+serdif.egg-info/top_level.txt

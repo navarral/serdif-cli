@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "serdif"
+authors = [
+    {name = "Albert Navarro Gallinad", email = "albert.navarroga@gmail.com"},
+]
+version = "0.1.0"
+
+
+[project.scripts]
+serdif = "serdif.__main__:main"

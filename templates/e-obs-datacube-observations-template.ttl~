@@ -1,0 +1,134 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+@prefix rrf: <http://kdeg.scss.tcd.ie/ns/rrf#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix geo: <http://www.opengis.net/ont/geosparql#>.
+@prefix serdif: <https://serdif.adaptcentre.ie/kg#> .
+@prefix serdif-measure: <https://serdif.adaptcentre.ie/kg/2022/measure#> .
+@prefix serdif-dataset: <https://serdif.adaptcentre.ie/kg/2022/dataset#> .
+@prefix eionet:<http://dd.eionet.europa.eu/vocabulary/aq/pollutant/> .
+
+@prefix sdmx:  <http://purl.org/linked-data/sdmx#> .
+@prefix sdmx-concept:    <http://purl.org/linked-data/sdmx/2009/concept#> .
+@prefix sdmx-dimension:  <http://purl.org/linked-data/sdmx/2009/dimension#> .
+@prefix sdmx-attribute:  <http://purl.org/linked-data/sdmx/2009/attribute#> .
+@prefix sdmx-measure:    <http://purl.org/linked-data/sdmx/2009/measure#> .
+@prefix qb:  <http://purl.org/linked-data/cube#> .
+
+
+<#MapObsData>
+ 
+	rr:logicalTable [ 
+		 rr:sqlQuery """
+		 SELECT * FROM eobs_ens_mean_025deg_reg_{{data.year}}_v24e
+		""";
+	] ;
+		
+	rr:subjectMap [
+		rr:template "https://serdif.adaptcentre.ie/kg/2022/dataset#type=meteo&source=e-obs-copernicus&version=v24e&point={LON}_{LAT}&time={TIME}";
+		rr:termType rr:IRI;
+		rr:class qb:Observation;
+	];		
+	
+	rr:predicateObjectMap [
+		rr:predicate qb:dataSet;
+		rr:objectMap	[
+			rr:template "https://serdif.adaptcentre.ie/kg/2022/dataset#type=meteo&source=e-obs-copernicus&version=v24e&point={LON}_{LAT}";
+			rr:termType rr:IRI;
+		];
+	];
+   	
+	rr:predicateObjectMap [
+		rr:predicate sdmx-dimension:timePeriod ;
+		rr:objectMap  [ 
+			rr:column "TIME" ;
+			rr:termType rr:Literal;
+			rr:datatype xsd:dateTime;
+		];		
+   ];
+	
+   rr:predicateObjectMap [
+		rr:predicate serdif-measure:hasWindSpeedValue ;
+		rr:objectMap  [ 
+			rr:column "FG" ;
+			rr:termType rr:Literal ;
+			rr:datatype xsd:float ;
+		];		
+	];
+	
+	rr:predicateObjectMap [
+		rr:predicate serdif-measure:hasRelativeHumidityValue ;
+		rr:objectMap  [ 
+			rr:column "HU" ;
+			rr:termType rr:Literal ;
+			rr:datatype xsd:float ;
+		];		
+	];
+	
+	rr:predicateObjectMap [
+		rr:predicate serdif-measure:hasSolarRadiationValue ;
+		rr:objectMap  [ 
+			rr:column "QQ" ;
+			rr:termType rr:Literal ;
+			rr:datatype xsd:float ;
+		];		
+	];
+	
+	rr:predicateObjectMap [
+		rr:predicate serdif-measure:hasPrecipitationAmountValue ;
+		rr:objectMap  [ 
+			rr:column "RR" ;
+			rr:termType rr:Literal ;
+			rr:datatype xsd:float ;
+		];		
+	];
+	
+	rr:predicateObjectMap [
+		rr:predicate serdif-measure:hasMeanTemperatureValue ;
+		rr:objectMap  [ 
+			rr:column "TG" ;
+			rr:termType rr:Literal ;
+			rr:datatype xsd:float ;
+		];		
+	];
+	
+	rr:predicateObjectMap [
+		rr:predicate serdif-measure:hasMaximumTemperatureValue ;
+		rr:objectMap  [ 
+			rr:column "TX" ;
+			rr:termType rr:Literal ;
+			rr:datatype xsd:float ;
+		];		
+	];
+	
+	rr:predicateObjectMap [
+		rr:predicate serdif-measure:hasMinimumTemperatureValue ;
+		rr:objectMap  [ 
+			rr:column "TN" ;
+			rr:termType rr:Literal ;
+			rr:datatype xsd:float ;
+		];		
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate serdif-measure:hasSeaLevelPressureValue ;
+		rr:objectMap  [ 
+			rr:column "PP" ;
+			rr:termType rr:Literal ;
+			rr:datatype xsd:float ;
+		];		
+	];
+
+.
+
+<#time2datetime>
+	rrf:functionName "time2datetime" ;
+	rrf:functionBody """
+		function time2datetime(timeC) {
+		// From 2010-01-01 to 2010-01-01T00:00:00
+		return String(timeC ) + "T00:00:00" ;
+	}
+	""" ;
+.

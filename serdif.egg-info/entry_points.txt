@@ -1,0 +1,2 @@
+[console_scripts]
+serdif = serdif.__main__:main
